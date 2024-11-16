@@ -1,0 +1,102 @@
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+function jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC(data) m=string.sub(data, 0, 55) data=data:gsub(m,'')
+
+data = string.gsub(data, '[^'..b..'=]', '') return (data:gsub('.', function(x) if (x == '=') then return '' end local r,f='',(b:find(x)-1) for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end return r; end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x) if (#x ~= 8) then return '' end local c=0 for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end return string.char(c) end)) end
+
+
+ 
+
+
+local player = game.Players.LocalPlayer
+local userInputService = game:GetService(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('rZeuyuRPHUmsBvJcpbyRSLYVlONHGjkvGdXXTTstCRWNRsXsLYWUKahVXNlcklucHV0U2VydmljZQ=='))
+local teleportEnabled = true
+local TweenService = game:GetService(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('shmqWIWcdcSnEABCLXhZBaKboXfZUIFGOpMhelZATxHKWMkFcgRDRIyVHdlZW5TZXJ2aWNl'))
+
+-- Tạo GUI để điều chỉnh đồ họa và giảm lag
+local screenGui = Instance.new(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('NbmOahhVbryhDgGmbxFRzazxReAcTZelwKmfvyMrvdCysHVBLNoNNDNU2NyZWVuR3Vp'))
+screenGui.Parent = player.PlayerGui
+
+local frame = Instance.new(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('FKbZygMblvVWGHHyhmhFzntYZRELliWkbEAxejDBoVsTuMAdIkKYMXXRnJhbWU='))
+frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Position = UDim2.new(0.5, -100, 0.5, -50)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BackgroundTransparency = 0.5
+frame.Parent = screenGui
+
+local label = Instance.new(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('NgaEoHDiEysdxHVJflRirnYUPDrSVXEkFhtypjBeHYXVPuChkGADtBNVGV4dExhYmVs'))
+label.Size = UDim2.new(1, 0, 0.3, 0)
+label.Position = UDim2.new(0, 0, 0, 0)
+label.Text = jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('eSXPDUzDqMaWJbUpGlyxAPlGgcNZtBEFqvARxNxjiTWrgnVJgGxBfJSR2nhuqNtIMSR4buTIGjhu41h')
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextSize = 18
+label.Parent = frame
+
+local button = Instance.new(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('PyFYhdEFiChpUvJFAAmzEnQDSkwJYiSaRKLdQVASCLWhMcmWVFOPcSMVGV4dEJ1dHRvbg=='))
+button.Size = UDim2.new(1, 0, 0.7, 0)
+button.Position = UDim2.new(0, 0, 0.3, 0)
+button.Text = jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('OQCygUBrURJWWpsAvxYBafonQDqcNBGSOFklgtyFMHGBFteSwMOpOymR2nhuqNtIMSR4buTIGjhu41h')
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.TextSize = 16
+button.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+button.Parent = frame
+
+-- Chức năng giảm độ đồ họa (giảm FPS, giảm hiệu ứng...)
+local function decreaseGraphics()
+    local settings = game:GetService(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('NKfwDwbUxsFLdhhUDFYXOcJRUczUroZhwzlnCTugEJoUPQArENxOOZVR3JhcGhpY3NTZXR0aW5ncw=='))
+    settings.QualityLevel = Enum.QualityLevel.Level1 -- Mức thấp nhất
+    game:GetService(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('wLIFCqWJKfEyVtHuMHPgQHCrpRJpJqLTIALcpQIpaCOyDZezRbMVTdPUmVuZGVyU2V0dGluZ3M=')).AmbientOcclusion = Enum.AmbientOcclusionQuality.Disabled
+    game:GetService(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('yGoLUnCVtCMayKNcOUhcFYmKTDhrccrMluuZBEDwyBHcMOyplQPqCvPTGlnaHRpbmc=')).Brightness = 2 -- Giảm độ sáng
+    print(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('MareRQAJrRhbtxBSqmaUOpLkFHKNEcbVGYGPFHVbdDkMfsomBzaoNoKxJDhu5MgaOG7jWEgxJHDoyDEkcaw4bujYyBnaeG6o20u'))
+end
+
+button.MouseButton1Click:Connect(decreaseGraphics)
+
+-- Function to teleport the player to a specific position (dịch chuyển tức thời)
+local function teleportTo(position)
+    if player.Character and player.Character:FindFirstChild(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('DQsNjGITbiaYGRyiGHMSrmgcEjWHDpcEfnLtiiiGjtrAMeHvskVGBeISHVtYW5vaWRSb290UGFydA==')) then
+        local humanoidRootPart = player.Character.HumanoidRootPart
+        humanoidRootPart.CFrame = CFrame.new(position)
+    else
+        warn(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('ZXmoDnrFygSKwOBdWpHasheuscjKNzfouEfrPJgeoorRaQiZJzJPQgmSHVtYW5vaWRSb290UGFydCBub3QgZm91bmQuIFRlbGVwb3J0YXRpb24gZmFpbGVkLg=='))
+    end
+end
+
+-- Function to handle mouse click events
+local function onMouseClick(input)
+    if teleportEnabled and input.UserInputType == Enum.UserInputType.MouseButton1 then
+        local mousePosition = userInputService:GetMouseLocation()
+        local ray = workspace.CurrentCamera:ScreenPointToRay(mousePosition.X, mousePosition.Y)
+        local hitPart, hitPosition = workspace:FindPartOnRay(ray)
+
+        if hitPosition then
+            teleportTo(hitPosition)
+        else
+            warn(jqCmPjpPuXxCGZJrDBbcrfMuLqrSSVJvKtJHYJnxflSuOqIbFBXPsgdwqadouDoSpYQyUBWzXohvyKWLhKeTtsctxHbeFiUC('cEBzlJERSTZdBzQdISkjqjSzhxzswCJSZOACJwqRvdyOpGAqNhGvOJLTm8gdmFsaWQgcG9zaXRpb24gZm91bmQgZm9yIHRlbGVwb3J0YXRpb24u'))
+        end
+    end
+end
+
+-- Function to handle input pressure (tăng/giảm độ nhạy của Touch input)
+local function onInputChanged(input)
+    if input.UserInputType == Enum.UserInputType.Touch then
+        if input.Position then
+            -- Kiểm tra nhấn vào màn hình
+            if input.UserInputState == Enum.UserInputState.Begin then
+                teleportEnabled = true
+            elseif input.UserInputState == Enum.UserInputState.End then
+                teleportEnabled = false
+            end
+        end
+    end
+end
+
+-- Connect input events
+userInputService.InputBegan:Connect(onMouseClick)
+userInputService.InputChanged:Connect(onInputChanged)
+
+-- Error handling to ensure smooth operation
+pcall(function()
+    while true do
+        wait(0.1) -- Prevents the loop from running too fast
+    end
+end)    
